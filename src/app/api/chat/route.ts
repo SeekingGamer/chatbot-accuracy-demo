@@ -1,35 +1,43 @@
 import { NextResponse } from "next/server";
 import { searchKnowledge } from "@/lib/vectorStore";
+import { SYSTEM_PROMPT } from "@/lib/prompt";
 
 export async function POST(req: Request) {
   const { message } = await req.json();
 
-  // 1️. Find relevant knowledge
+  // 1. Search embeddings
   const result = await searchKnowledge(message);
 
-  const context = result?.text ?? "No relevant information found.";
+  if (!result || !result.text || result.text.length < 30) {
+    return NextResponse.json({
+      reply:
+        "I don’t have information about that. Please contact support at support@skywalkertech.com"
+    });
+  }
 
-  // 2️. Call your chat model
+  const context = result.text;
+
+  // 2. Call LM Studio model
   const response = await fetch("http://localhost:1234/v1/chat/completions", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "mistral-7b-instruct",
+      model: "qwen2.5-1.5b-instruct",
       messages: [
         {
           role: "system",
-          content: "You are a helpful support chatbot. Answer ONLY using the provided context."
+          content: SYSTEM_PROMPT
         },
         {
           role: "system",
-          content: `Context: ${context}`
+          content: `Context:\n${context}`
         },
         {
           role: "user",
           content: message
         }
       ],
-      temperature: 0.2
+      temperature: 0.1
     })
   });
 

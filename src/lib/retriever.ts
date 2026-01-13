@@ -8,7 +8,7 @@ type KnowledgeItem = {
 };
 
 export function retrieveContext(query: string): string | null {
-  const filePath = path.join(process.cwd(), "src/data/knowledge.json");
+  const filePath = path.join(process.cwd(), "src/data/knowledge.ts");
   const data = fs.readFileSync(filePath, "utf-8");
   const knowledge: KnowledgeItem[] = JSON.parse(data);
 
