@@ -20,6 +20,38 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) >= 18
+- npm (comes with Node.js)
+- LM Studio installed and running
+- Optional: Git for version control
+
+---
+
+### LM Studio Setup
+
+1. **Download and install LM Studio**  
+   [LM Studio Download](https://lmstudio.ai) (Make sure it is running locally on `http://localhost:1234`)
+
+2. **Start LM Studio** and make sure your models are loaded. You can check running models with:
+
+```bash
+curl http://localhost:1234/v1/models
+```
+
+3. **Configure LM Studio**: Ensure the chatbot application is configured to communicate with LM Studio. Update the `src/lib/llm.ts` file to point to the correct LM Studio endpoint if necessary.
+
+---
+
+### Additional Documentation
+
+- **Knowledge Base**: The `src/data/knowledge.ts` file contains the knowledge base used by the chatbot. You can update this file to add or modify the chatbot's knowledge.
+- **Embedding Logic**: The `src/lib/embedding.ts` file handles text embeddings. Ensure your embeddings align with the LM Studio model.
+- **Prompt Engineering**: The `src/lib/prompt.ts` file defines the chatbot's prompts. Modify this file to customize the chatbot's behavior.
+- **Similarity Search**: The `src/lib/similarity.ts` file is used for finding the most relevant knowledge base entries.
+- **Vector Store**: The `src/lib/vectorStore.ts` file manages the storage of vectorized data.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
